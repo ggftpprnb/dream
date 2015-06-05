@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dream.browser.dao.main.test.TranMapper" >
+
+  <insert id="insertSelective" parameterType="dream.browser.model.Tran" >
+    insert into d_tran
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="selectByKey" resultType="dream.browser.model.Tran">
+  	select * from d_tran where id=#{id} for update
+  </select>
+  
+  <select id="selectByName" resultType="dream.browser.model.Tran">
+  	select * from d_tran where name=#{name}
+  </select>
+  
+  <update id="updateByKey">
+  	update d_tran set age = #{age} where 1=1
+  	 and id = #{id}
+  </update>
+  
+  <update id="updateByName">
+  	update d_tran set age = #{age} where 1=1
+  	 and name = #{name}
+  </update>
+  
+  <select id="getTime" resultType="java.lang.String">
+  	SELECT #{uuid}
+  </select>
+  
+  <insert id="insertOrUpdate" parameterType="dream.browser.model.Tran" >
+    INSERT INTO d_tran (id,name,age) value (#{id},#{name},#{age}) ON DUPLICATE KEY UPDATE
+    name = 'updateName',age = 999
+  </insert>
+</mapper>

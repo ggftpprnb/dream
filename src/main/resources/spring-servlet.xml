@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<context:component-scan base-package="dream"></context:component-scan>
+	<mvc:annotation-driven />
+
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+	    <property name="viewResolvers">
+	        <list>
+	            <!-- <bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/> -->
+	            <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	            	<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
+	                <property name="prefix" value="/JSP/"/>
+	                <property name="suffix" value=".jsp"/>
+	            </bean>
+	        </list>
+	    </property>
+	    <property name="defaultViews">
+	        <list>
+	            <bean class="dream.commons.view.JsonView" />
+	        </list>
+	    </property>
+	</bean>
+	
+	<mvc:resources mapping="/js/easyui/**" location="/JS/jquery-easyui-1.4.1/" />
+	<mvc:resources mapping="/js/crypto/**" location="/JS/crypto-3.1.2/" />
+	<mvc:resources mapping="/js/browser/**" location="/JS/browser/" />
+	<mvc:resources mapping="/css/**" location="/CSS/" />
+	
+	<import resource="spring-mybatis.xml"/>
+</beans>

@@ -1,0 +1,17 @@
+/* @CHARSET "UTF-8";
+后台管理主要的样式
+body, html { margin:0px; padding:0px; }
+table { width:100% }
+ul li{float:left;margin-left:15px;display:block;list-style-type:none}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, p, span, a, blockquote, th { margin:0; padding:0; }
+html { text-align:center; }
+body { background-color:#e5f0ff; color:#1262b3; font-family:"宋体", Arial; font-size:12px; margin:0 auto; text-align:center; }
+table{width:100%}
+table td iframe { width:100% }
+ul li{float:left;margin-left:15px;display:block;list-style-type:none}
+.top_frame { width:100% }
+.left_frame { width:15% }
+.right_frame { width:85% }
+.top_frame_description { width:25%; height:70px; }
+.top_frame_logout { width:75%; text-align:right; } */
+

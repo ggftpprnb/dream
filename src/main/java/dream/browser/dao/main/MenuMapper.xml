@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dream.browser.dao.main.MenuMapper" >
+	<insert id="insertSelective" parameterType="dream.browser.model.Menu">
+    insert into d_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="parentId != null">
+        parentId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 根据菜单ID获取菜单对象 -->
+  <select id="getMenuById" resultType="dream.browser.model.dto.MenuTreeDto">
+  	select m.* from d_menu m
+  		where 1=1
+  		and m.id = #{menuId}
+  </select>
+  
+  <!-- 根据父菜单ID集合，获取这堆父菜单的子菜单 -->
+  <select id="getChildrenMenuList" resultType="dream.browser.model.dto.MenuTreeDto">
+  	select m.* from d_menu m
+  		where 1=1
+  		<if test="parentIdCollection!=null and parentIdCollection.size>=1">
+  			and m.parentId in
+  			<foreach collection="parentIdCollection" open="(" close=")" item="mId" separator=",">
+  				#{mId}
+  			</foreach>
+  		</if>
+  		order by ifnull(listOrder,0) asc
+  </select>
+  
+  <!-- 获取菜单列表 -->
+  <select id="getMenuListByParentId" resultType="dream.browser.model.dto.MenuTreeDto">
+  	select m.* from 
+  		<include refid="getMenuListByParentId_condition"/>
+  		order by ifnull(listOrder,0) asc
+  </select>
+  
+  <sql id="getMenuListByParentId_condition">
+  		d_menu m where 1=1
+  		and m.isSoftDelete = false
+  		<choose>
+  			<when test="parentId!=null and parentId!=''">
+  				and m.parentId = #{parentId}
+  			</when>
+  			<otherwise>
+  				and m.parentId is null
+  			</otherwise>
+  		</choose>
+  </sql>
+  
+  <!-- 获取菜单列表数量 -->
+  <select id="countMenuListByParentId" resultType="java.lang.Integer">
+  	select count(*) from 
+  		<include refid="getMenuListByParentId_condition"/>
+  </select>
+  
+</mapper>

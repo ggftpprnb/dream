@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd"> 
+
+	<!--注册数据库的连接信息 -->
+	<context:property-placeholder location="classpath:commons.properties" />
+
+	<bean id="dataSource" destroy-method="close" class="dream.browser.config.DreamBrowserDataSource">
+		<property name="deployType" value="${deployType}"></property>
+	</bean>
+
+	<!-- 配置mybatis SqlSessionFactory -->
+	
+	<!-- <bean id="paginationInterceptor" class="net.techfinger.networkimages.utils.mybatis.PaginationInterceptor"></bean> -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		
+		<property name="configurationProperties">
+			<props>
+				<prop key="dialect">mysql</prop>
+			</props>
+		</property>
+		<!-- <property name="plugins" ref="paginationInterceptor"></property> -->
+	</bean>
+
+	<!-- scan for mappers and let them be autowired -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="dream.browser.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+	</bean>
+
+	<!-- 配置事务管理器bean,使用DatasourceTransactionManager事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+</beans>
