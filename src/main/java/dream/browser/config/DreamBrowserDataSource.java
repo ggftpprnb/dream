@@ -36,6 +36,8 @@ public class DreamBrowserDataSource extends BasicDataSource{
 				super.setMinIdle(0);
 			}else if(DeployType.testOnline.getValue().equals(deployType)){
 				
+				//how to resolve
+				
 				//准上线测试库
 				super.setUrl("jdbc:mysql://192.168.111.132:3306/dream?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true");
 				super.setDriverClassName("com.mysql.jdbc.Driver");
@@ -50,6 +52,9 @@ public class DreamBrowserDataSource extends BasicDataSource{
 			}else if(DeployType.online.getValue().equals(deployType)){
 				
 				//正式上线库
+				
+				//how to online
+				
 				super.setUrl("jdbc:mysql://192.168.111.132:3306/dream?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true");
 				super.setDriverClassName("com.mysql.jdbc.Driver");
 				super.setUsername("root");
