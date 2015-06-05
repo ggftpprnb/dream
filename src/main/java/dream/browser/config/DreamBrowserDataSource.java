@@ -10,6 +10,7 @@ public class DreamBrowserDataSource extends BasicDataSource{
 	//发布类型。参考：commons.properties中的deployType
 	public void setDeployType(String deployType) {
 		if(!StringUtils.isBlank(deployType)){
+			
 			if(DeployType.developer.getValue().equals(deployType)){
 				
 				//开发库
