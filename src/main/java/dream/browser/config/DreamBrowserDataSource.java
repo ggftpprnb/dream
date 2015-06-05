@@ -27,6 +27,8 @@ public class DreamBrowserDataSource extends BasicDataSource{
 				super.setUsername("root");
 				//super.setPassword("smc2012");
 				
+				//怎么解决冲突
+				
 				super.setInitialSize(0);
 				super.setMaxIdle(8);
 				super.setMaxTotal(8);
